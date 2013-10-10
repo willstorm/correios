@@ -12,7 +12,7 @@ O módulo tem como função principal calcular os preços e prazos utilizando o 
 ##Instalação
 Para efetuar a instalação do módulo siga os passos:
 
-1. Acesse o link do módulo no *Magento Connect* e clique em *Install Now*.
+1. Acesse o link do módulo no [*Magento Connect*](http://www.magentocommerce.com/magento-connect/calculo-de-frete-dos-correios.html) e clique em *Install Now*.
 2. Clique em *logged* caso já tenha uma conta no *Magento Connect*. Caso contrário clique em *registered* e registre-se.
 3. Aceite os termos e condições de uso clicando no checkbox e clique em *Get Extension Key*. 
 4. Copie o endereço de instalação no módulo fornecido pelo *Magento Connect*.
