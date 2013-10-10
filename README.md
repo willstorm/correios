@@ -50,3 +50,9 @@ Para configurar o produto siga os passos:
 1. Vá até *Catalog > Manage Product* e edite/crie um produto. 
 2. Vá na aba *General* e digite o peso do produto em KG no campo *Weight* ( peso ).
 3. Vá a aba *Dimensions* ( dimensões ) e digite as dimensões do produto nos campos Altura, Largura e Comprimento. 
+
+##Bugs
+Caso encontre algum problema com o módulo não exite em [reportá-lo](https://github.com/willstorm/correios/issues).
+
+##Dúvidas e Sugestões
+Tem dúvidas, sugestões ou quer apenas dar um oi, [entre em contato com o desenvolvedor](mailto:williancordeirodesouza@gmail.com).
