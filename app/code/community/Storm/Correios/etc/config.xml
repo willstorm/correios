@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Storm
+ * @package    Storm_Correios
+ * @copyright  Copyright (c) 2013 Willian Cordeiro de Souza
+ * @author     Willian Cordeiro de Souza <williancordeirodesouza@gmail.com> 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+	<Storm_Correios>	    
+	    <version>1.2.6</version>
+	</Storm_Correios>
+    </modules>
+     
+    <global>
+	<models>	    
+	    <correios>		
+		<class>Storm_Correios_Model</class>
+	    </correios>
+	</models>
+
+	<helpers>
+	    <correios>
+		<class>Storm_Correios_Helper</class>
+	    </correios>
+	</helpers>
+	
+	<resources>	    
+	    <correios_setup>		
+		<setup>		    
+		    <module>Storm_Correios</module>
+		    <class>Storm_Correios_Model_Catalog_Resource_Setup</class>
+		</setup>
+	    </correios_setup>
+	</resources>
+
+	<sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <package_height />
+                        <package_width />
+			<package_length />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+    </global>
+    
+    <adminhtml>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <correios_admin_notification>
+                        <type>singleton</type>
+                        <class>correios/adminhtml_observer</class>
+                        <method>checkConfiguration</method>
+                    </correios_admin_notification>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+
+        <translate>
+            <modules>
+                <Storm_Correios>
+                    <files>
+                        <default>Storm_Correios.csv</default>
+                    </files>
+                </Storm_Correios>
+            </modules>
+        </translate>
+    </adminhtml>
+    
+    <frontend>        
+        <translate>
+            <modules>
+                <Storm_Correios>
+                    <files>
+                        <default>Storm_Correios.csv</default>
+                    </files>
+                </Storm_Correios>
+            </modules>
+        </translate>        
+    </frontend>
+    
+    <default>
+        <carriers>
+            <correios>
+                <active>0</active>
+                <model>correios/carrier_shipping</model>
+		<name>Correios</name>
+                <title>Correios</title>
+                <debug_mode>0</debug_mode>
+                <showmethod>1</showmethod>                
+		<free_shipping_method>lower-price</free_shipping_method>
+                <show_deliverytime>1</show_deliverytime>
+            </correios>
+        </carriers>
+    </default>
+</config>

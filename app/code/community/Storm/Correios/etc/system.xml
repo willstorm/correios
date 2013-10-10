@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Storm
+ * @package    Storm_Correios
+ * @copyright  Copyright (c) 2013 Willian Cordeiro de Souza
+ * @author     Willian Cordeiro de Souza <williancordeirodesouza@gmail.com> 
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <sections>
+	<carriers>
+	    <groups>
+		<correios translate="label comment" module="correios">
+		    <label>Correios</label>
+                    <comment><![CDATA[Se você tem dúvidas de como configurar o módulo acesse a <a href="https://bitbucket.org/willcs/correios/wiki/" target="_blank">Wiki</a>.]]></comment>
+		    <frontend_type>text</frontend_type>
+		    <sort_order>1</sort_order>
+		    <show_in_default>1</show_in_default>
+		    <show_in_website>1</show_in_website>
+		    <show_in_store>1</show_in_store>
+		    <fields>
+			<active translate="label">
+			    <label>Enabled</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>
+			    <sort_order>1</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</active>
+			<title translate="label">
+			    <label>Title</label>
+			    <frontend_type>text</frontend_type>
+			    <sort_order>2</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</title>
+			<account_code translate="label comment">
+			    <label>Account code</label>
+			    <frontend_type>text</frontend_type>
+			    <sort_order>3</sort_order>
+			    <comment><![CDATA[Your administrative code by the ECT. The code is available in the body of the contract signed with the Correios.]]></comment>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</account_code>			
+			<account_password translate="label comment">
+			    <label>Account password</label>
+			    <frontend_type>password</frontend_type>
+			    <sort_order>4</sort_order>
+			    <comment><![CDATA[The initial password corresponds to the 8-digit CNPJ informed of the contract.]]></comment>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</account_password>
+                        <debug_mode translate="label">
+			    <label>Debug mode</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[With debug mode enabled you can get all the messages sent by the module. To analyze the log file located in the open var/log/correios.log. For this role you must have enabled the Log localizated in System> Configuration> Developer> Log]]></comment>
+			    <sort_order>5</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</debug_mode>
+			<shipping_methods translate="label comment">			    
+			    <label>Shipping methods</label>
+			    <frontend_type>multiselect</frontend_type>
+			    <source_model>correios/source_methods</source_model>
+			    <comment><![CDATA[Choose shipping methods you want to show at checkout. If you select the methods you need to contract with the filling of your account information from Correios.]]></comment>
+			    <sort_order>6</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>			    
+			</shipping_methods>
+                        <stated_value>
+                            <label>Use stated value</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[This option is required for the method Sedex a cobrar.]]></comment>
+			    <sort_order>8</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+                        </stated_value>
+                        <receipt_warning>
+                            <label>Use receipt warning</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>                            
+			    <sort_order>9</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+                        </receipt_warning>
+                        <own_hands>
+                            <label>Use own hands</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>                            
+			    <sort_order>10</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+                        </own_hands>
+			<free_shipping_method translate="label comment">			    
+			    <label>Free shipping method</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>correios/source_freeMethods</source_model>
+			    <comment><![CDATA[This method will be applied only when the customer purchase meet the requirements of the rules of promotions.]]></comment>
+			    <sort_order>11</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>			    
+			</free_shipping_method>
+                        <add_delivery_time translate="label comment">			    
+			    <label>Add to delivery time</label>
+			    <frontend_type>text</frontend_type>			    
+			    <comment><![CDATA[Time in days to add to the delivery time of Correios.]]></comment>
+			    <sort_order>12</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>			    
+			</add_delivery_time>
+                        <showmethod>
+                            <label>Show method if not applicable</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment><![CDATA[Only if this option is yes the error messages will be displayed]]></comment>
+			    <sort_order>13</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+                        </showmethod>
+                        <show_deliverytime>
+                            <label>Show delivery time</label>
+			    <frontend_type>select</frontend_type>
+			    <source_model>adminhtml/system_config_source_yesno</source_model>                            
+			    <sort_order>14</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+                        </show_deliverytime>
+                        <handling_type translate="label">
+                            <label>Calculate Handling Fee</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>shipping/source_handlingType</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_type>
+                        <handling_fee translate="label comment">
+                            <label>Handling Fee</label>                            
+                            <frontend_type>text</frontend_type>
+                            <comment><![CDATA[This value will be added on final price of shipping]]></comment>
+                            <validate>validate-number</validate>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </handling_fee>
+			<sort_order translate="label">
+			    <label>Sort order</label>
+			    <frontend_type>text</frontend_type>
+			    <sort_order>100</sort_order>
+			    <show_in_default>1</show_in_default>
+			    <show_in_website>1</show_in_website>
+			    <show_in_store>1</show_in_store>
+			</sort_order>
+		    </fields>
+		</correios>
+	    </groups>
+	</carriers>
+    </sections>
+</config>
