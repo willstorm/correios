@@ -47,7 +47,8 @@ class Storm_Correios_Model_Adminhtml_Observer
             array(
                 'severity' => Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL,
                 'title' => $message,
-                'date_added' => date('Y-m-d H:i:s')
+                'date_added' => date('Y-m-d H:i:s'),
+                'url' => '',
             )
         ));
         
