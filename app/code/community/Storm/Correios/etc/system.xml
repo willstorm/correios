@@ -14,7 +14,7 @@
 	    <groups>
 		<correios translate="label comment" module="correios">
 		    <label>Correios</label>
-                    <comment><![CDATA[Se você tem dúvidas de como configurar o módulo acesse a <a href="https://bitbucket.org/willcs/correios/wiki/" target="_blank">Wiki</a>.]]></comment>
+                    <comment><![CDATA[Se você tem dúvidas de como configurar o módulo acesse nosso <a href="https://github.com/willstorm/correios" target="_blank">repositório</a>.]]></comment>
 		    <frontend_type>text</frontend_type>
 		    <sort_order>1</sort_order>
 		    <show_in_default>1</show_in_default>
