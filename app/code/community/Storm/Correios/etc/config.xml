@@ -94,7 +94,8 @@
 		<name>Correios</name>
                 <title>Correios</title>
                 <debug_mode>0</debug_mode>
-                <showmethod>1</showmethod>                
+                <showmethod>1</showmethod>
+                <shipping_methods>40010,41106</shipping_methods>
 		<free_shipping_method>lower-price</free_shipping_method>
                 <show_deliverytime>1</show_deliverytime>
             </correios>

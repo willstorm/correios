@@ -29,6 +29,10 @@ class Storm_Correios_Model_Carrier_Webservice
             )
         ));
 
+        if(!$this->_getHelper()->getConfigData('shipping_methods')) {
+            throw new Exception($this->_getHelper()->__('You must to select some shipping method.'));
+        }
+
         $this->setParam('nCdEmpresa', $this->_getHelper()->getConfigData('account_code'))
              ->setParam('sDsSenha', $this->_getHelper()->getConfigData('account_password'))
              ->setParam('nCdServico', $this->_getHelper()->getConfigData('shipping_methods'))
@@ -149,7 +153,7 @@ class Storm_Correios_Model_Carrier_Webservice
 	}
 
         $result = array();
-        
+
         if(is_array($request)) {
             foreach($request as $methodData) {
                 $result[] = $this->_convertWebserviceValues($methodData);
