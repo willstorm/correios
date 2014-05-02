@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
     <name>correios</name>
-    <version>1.3.0</version>
+    <version>1.3.4</version>
     <stability>stable</stability>
     <license>OSL 3.0</license>
     <channel>community</channel>
@@ -20,11 +20,11 @@ As seguintes fun&#xE7;&#xF5;es est&#xE3;o dispon&#xED;ves:&lt;br /&gt;&lt;br /&g
 Caso tenha d&#xFA;vida de como instalar e configurar o m&#xF3;dulo &lt;a href="https://bitbucket.org/willcs/correios/wiki"&gt;acesse nosso Wiki&lt;/a&gt;.&lt;br /&gt;&#xD;
 &lt;hr /&gt;&#xD;
 This module is available only to Brazil.</description>
-    <notes>* Atualiza&#xE7;&#xE3;o para suportar vers&#xE3;o 1.8 do Magento.</notes>
+    <notes>* Corre&#xE7;&#xE3;o no c&#xE1;lculo de dimens&#xE3;o dos produtos</notes>
     <authors><author><name>Willian</name><user>willsouza</user><email>williancordeirodesouza@gmail.com</email></author></authors>
-    <date>2013-09-27</date>
-    <time>00:57:19</time>
-    <contents><target name="magecommunity"><dir name="Storm"><dir name="Correios"><dir name="Helper"><file name="Data.php" hash="c0344a3cccf20787f115b24cacef68b7"/></dir><dir name="Model"><dir name="Adminhtml"><file name="Observer.php" hash="3e2d7ae7abb9dc2131f2a7868fd89d87"/></dir><dir name="Carrier"><dir name="Package"><file name="Dimension.php" hash="88d12d19a36e753c94f30c08431e9c45"/></dir><dir name="Shipping"><file name="Tracking.php" hash="97c09a03c9bc77ded9e01099887ecb67"/></dir><file name="Shipping.php" hash="e8d22369e1d5e185585684774711776b"/><file name="Webservice.php" hash="8a5fb2e4f318bb95900bb5b29abc8a4a"/></dir><dir name="Catalog"><dir name="Resource"><file name="Setup.php" hash="833a10b8bc912d3df9818f3b0f86d442"/></dir></dir><dir name="Source"><file name="FreeMethods.php" hash="67646bf270c42fa6fa8b79de336236b3"/><file name="Methods.php" hash="d9118016fe15471f813682385c95a93b"/></dir></dir><dir name="etc"><file name="config.xml" hash="2ba451fdb748cdaf09ecf19c669b0379"/><file name="system.xml" hash="ae02d64e5ad304a3dc256ccdd490d646"/></dir><dir name="sql"><dir name="correios_setup"><file name="mysql4-install-0.1.0.php" hash="dca339c0e46e4b9d116bc1eea9d09930"/></dir></dir></dir></dir></target><target name="magelocale"><dir name="pt_BR"><file name="Storm_Correios.csv" hash="ab5c76e7e4cd0fcd0317e9d94c930bf6"/></dir></target><target name="mageetc"><dir name="modules"><file name="Storm_Correios.xml" hash="93aa3a9938657131b77fa2a2e60abd71"/></dir></target></contents>
+    <date>2014-05-02</date>
+    <time>23:24:13</time>
+    <contents><target name="magecommunity"><dir name="Storm"><dir name="Correios"><dir name="Helper"><file name="Data.php" hash="c0344a3cccf20787f115b24cacef68b7"/></dir><dir name="Model"><dir name="Adminhtml"><file name="Observer.php" hash="200870678c607ae75bef43f7f5d19569"/></dir><dir name="Carrier"><dir name="Package"><file name="Dimension.php" hash="5e835a94891276aee3286c87668ae957"/></dir><dir name="Shipping"><file name="Tracking.php" hash="97c09a03c9bc77ded9e01099887ecb67"/></dir><file name="Shipping.php" hash="148978df8ff1c28c1769cf7734818800"/><file name="Webservice.php" hash="6223f35a2722f22d15386b2b84237528"/></dir><dir name="Catalog"><dir name="Resource"><file name="Setup.php" hash="833a10b8bc912d3df9818f3b0f86d442"/></dir></dir><dir name="Source"><file name="FreeMethods.php" hash="67646bf270c42fa6fa8b79de336236b3"/><file name="Methods.php" hash="d9118016fe15471f813682385c95a93b"/></dir></dir><dir name="etc"><file name="config.xml" hash="e781224a3dbd9007877e4ab0f710bc0d"/><file name="system.xml" hash="7fc9af5f08e42d25f0fad5b93a1694da"/></dir><dir name="sql"><dir name="correios_setup"><file name="mysql4-install-0.1.0.php" hash="dca339c0e46e4b9d116bc1eea9d09930"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Storm_Correios.xml" hash="93aa3a9938657131b77fa2a2e60abd71"/></dir></target><target name="magelocale"><dir name="pt_BR"><file name="Storm_Correios.csv" hash="a6f14dd49a4de226a70939c093cd0755"/></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
 </package>
