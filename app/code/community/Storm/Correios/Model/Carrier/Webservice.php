@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @category   Storm
  * @package    Storm_Correios
@@ -29,14 +30,14 @@ class Storm_Correios_Model_Carrier_Webservice
             )
         ));
 
-        if(!$this->_getHelper()->getConfigData('shipping_methods')) {
+        if (!$this->_getHelper()->getConfigData('shipping_methods')) {
             throw new Exception($this->_getHelper()->__('You must to select some shipping method.'));
         }
 
         $this->setParam('nCdEmpresa', $this->_getHelper()->getConfigData('account_code'))
-             ->setParam('sDsSenha', $this->_getHelper()->getConfigData('account_password'))
-             ->setParam('nCdServico', $this->_getHelper()->getConfigData('shipping_methods'))
-             ->setParam('sCepOrigem', Mage::getStoreConfig('shipping/origin/postcode'));
+            ->setParam('sDsSenha', $this->_getHelper()->getConfigData('account_password'))
+            ->setParam('nCdServico', $this->_getHelper()->getConfigData('shipping_methods'))
+            ->setParam('sCepOrigem', Mage::getStoreConfig('shipping/origin/postcode'));
     }
 
     /**
@@ -47,7 +48,7 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function getClient()
     {
-	return $this->_client;
+        return $this->_client;
     }
 
     /**
@@ -60,8 +61,8 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function setParam($name, $value)
     {
-	$this->_params[$name] = $value;
-	return $this;
+        $this->_params[$name] = $value;
+        return $this;
     }
 
     /**
@@ -71,7 +72,7 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function getParams()
     {
-	return $this->_params;
+        return $this->_params;
     }
 
     /**
@@ -82,11 +83,11 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function getParam($key)
     {
-	if (isset($this->_params[$key])) {
-	    return $this->_params[$key];
-	}
+        if (isset($this->_params[$key])) {
+            return $this->_params[$key];
+        }
 
-	return false;
+        return false;
     }
 
     /**
@@ -97,26 +98,26 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function setShippingRequest(Mage_Shipping_Model_Rate_Request $request)
     {
-	$dimension = Mage::getModel('correios/carrier_package_dimension');
-	$dimension->setRequest($request);
+        $dimension = Mage::getModel('correios/carrier_package_dimension');
+        $dimension->setRequest($request);
 
-	$this->setParam('sCepDestino', $request->getDestPostcode())
-	     ->setParam('nVlPeso', $request->getPackageWeight())
-	     ->setParam('nCdFormato', 1)
-	     ->setParam('nVlComprimento', $dimension->getLength())
-	     ->setParam('nVlAltura', $dimension->getHeight())
-	     ->setParam('nVlLargura', $dimension->getWidth())
-	     ->setParam('nVlDiametro', 0)
-	     ->setParam('sCdMaoPropria', $this->_getHelper()->getConfigData('own_hands') ? 'S' : 'N')
-	     ->setParam('nVlValorDeclarado', 0)
-	     ->setParam('sCdAvisoRecebimento', $this->_getHelper()->getConfigData('receipt_warning') ? 'S' : 'N');
+        $this->setParam('sCepDestino', $request->getDestPostcode())
+            ->setParam('nVlPeso', $request->getPackageWeight())
+            ->setParam('nCdFormato', 1)
+            ->setParam('nVlComprimento', $dimension->getLength())
+            ->setParam('nVlAltura', $dimension->getHeight())
+            ->setParam('nVlLargura', $dimension->getWidth())
+            ->setParam('nVlDiametro', 0)
+            ->setParam('sCdMaoPropria', $this->_getHelper()->getConfigData('own_hands') ? 'S' : 'N')
+            ->setParam('nVlValorDeclarado', 0)
+            ->setParam('sCdAvisoRecebimento', $this->_getHelper()->getConfigData('receipt_warning') ? 'S' : 'N');
 
-        if($this->_getHelper()->getConfigData('stated_value')) {
+        if ($this->_getHelper()->getConfigData('stated_value')) {
             $this->setParam('nVlValorDeclarado', $request->getPackageValue());
         }
 
-	$this->_request = $request;
-	return $this;
+        $this->_request = $request;
+        return $this;
     }
 
     /**
@@ -126,7 +127,7 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function getShippingRequest()
     {
-	return $this->_request;
+        return $this->_request;
     }
 
     /**
@@ -136,35 +137,35 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     public function request()
     {
-	if(!$request = $this->getClient()->CalcPrecoPrazo($this->getParams())) {
-	    return false;
-	}
+        if (!$request = $this->getClient()->CalcPrecoPrazo($this->getParams())) {
+            return false;
+        }
 
-	if(!$request = $request->CalcPrecoPrazoResult) {
-	    return false;
-	}
+        if (!$request = $request->CalcPrecoPrazoResult) {
+            return false;
+        }
 
-	if(!$request = $request->Servicos) {
-	    return false;
-	}
+        if (!$request = $request->Servicos) {
+            return false;
+        }
 
-	if(!$request = $request->cServico) {
-	    return false;
-	}
+        if (!$request = $request->cServico) {
+            return false;
+        }
 
         $result = array();
 
-        if(is_array($request)) {
-            foreach($request as $methodData) {
+        if (is_array($request)) {
+            foreach ($request as $methodData) {
                 $result[] = $this->_convertWebserviceValues($methodData);
             }
-        } elseif(isset($request->Codigo)) {
+        } elseif (isset($request->Codigo)) {
             $result[] = $this->_convertWebserviceValues($request);
         } else {
             throw new Exception(Mage::helper('correios')->__('Cannot be possible to estimate shipping from Correios.'));
         }
 
-	return $result;
+        return $result;
     }
 
     /**
@@ -174,7 +175,7 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     protected function _getHelper()
     {
-	return Mage::helper('correios');
+        return Mage::helper('correios');
     }
 
     /**
@@ -186,20 +187,20 @@ class Storm_Correios_Model_Carrier_Webservice
      */
     private function _convertWebserviceValues(stdClass $data)
     {
-	$result = new Varien_Object();
-	$result->setCode($data->Codigo);
+        $result = new Varien_Object();
+        $result->setCode($data->Codigo);
 
-        if($data->Erro != 0) {
+        if ($data->Erro != 0) {
             $result->setError($data->Erro)
-                   ->setErrorMessage($data->MsgErro);
+                ->setErrorMessage($data->MsgErro);
 
             return $result;
         }
 
-	$result->setPrice($this->_getHelper()->convertToFloat($data->Valor))
-               ->setDeliveryTime($data->PrazoEntrega + intval($this->_getHelper()->getConfigData('add_delivery_time')))
-               ->setHomeDelivery($data->EntregaDomiciliar == 'S' ? true : false)
-               ->setSaturdayDelivery($data->EntregaSabado == 'S' ? true : false);
+        $result->setPrice($this->_getHelper()->convertToFloat($data->Valor))
+            ->setDeliveryTime($data->PrazoEntrega + intval($this->_getHelper()->getConfigData('add_delivery_time')))
+            ->setHomeDelivery($data->EntregaDomiciliar == 'S' ? true : false)
+            ->setSaturdayDelivery($data->EntregaSabado == 'S' ? true : false);
 
         return $result;
     }
