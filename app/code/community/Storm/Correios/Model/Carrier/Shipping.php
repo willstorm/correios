@@ -38,15 +38,25 @@ class Storm_Correios_Model_Carrier_Shipping extends Mage_Shipping_Model_Carrier_
             if (!$rates = $this->_doRequest($request)) {
                 return false;
             }
-
+			
+			$alert = null;
+			$smarterrors = array();
             foreach ($rates as $rate) {
                 if ($rate->hasError()) {
-                    if ($this->_getHelper()->getConfigData('showmethod')) {
-                        $this->_appendError($result, sprintf('%s: %s', $this->_getMethodTitle($rate), $rate->getErrorMessage()));
-                    }
-                    continue;
+					if ($rate->hasPrice()) {
+						$alert = $rate->getErrorMessage();
+					} else {
+						if (!$this->_getHelper()->getConfigData('show_smarterrors')) {
+							$this->_appendError($result, sprintf('%s: %s', $this->_getMethodTitle($rate), $rate->getErrorMessage()));
+						} else {
+							if (($rate->getError() != '-6') && ($rate->getError() != '008')) {
+								$smarterrors[] = $rate->getError();
+							}
+						}
+						continue;
+					}
                 }
-
+				
                 $method = Mage::getModel('shipping/rate_result_method');
                 $method->setCarrier($this->_code)
                     ->setCarrierTitle($this->getConfigData('title'))
@@ -57,6 +67,25 @@ class Storm_Correios_Model_Carrier_Shipping extends Mage_Shipping_Model_Carrier_
 
                 $result->append($method);
             }
+
+			if ($this->_getHelper()->getConfigData('showmethod')) {
+				if (($this->_getHelper()->getConfigData('show_smarterrors')) && (!empty($smarterrors))) {
+					if (count(array_count_values($smarterrors)) == 1) {
+						$this->_appendError($result, $rates[0]->getErrorMessage());
+					} else {
+						foreach ($rates as $rate) {
+							if ($rate->hasError()) {
+								$this->_appendError($result, sprintf('%s: %s', $this->_getMethodTitle($rate), $rate->getErrorMessage()));
+							}
+						}
+					}
+				}
+
+				if ($alert != null) {
+					$this->_appendError($result, $alert);
+				}
+			}
+			
         } catch (Exception $e) {
             $this->_appendError($result, $e->getMessage());
             return $result;
