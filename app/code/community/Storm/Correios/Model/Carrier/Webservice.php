@@ -194,7 +194,9 @@ class Storm_Correios_Model_Carrier_Webservice
             $result->setError($data->Erro)
                 ->setErrorMessage($data->MsgErro);
 
-            return $result;
+			if ((!$data->Valor) || ($data->Valor == '0,00')) {
+                return $result;
+			}
         }
 
         $result->setPrice($this->_getHelper()->convertToFloat($data->Valor))
