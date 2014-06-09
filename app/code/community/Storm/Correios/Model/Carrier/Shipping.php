@@ -292,12 +292,12 @@ class Storm_Correios_Model_Carrier_Shipping extends Mage_Shipping_Model_Carrier_
     protected function _getMethodTitle(Varien_Object $method, $includeDeliveryTime = false)
     {
         $title = $this->_getHelper()->getMethodTitle($method->getCode());
-
+        
         if ($includeDeliveryTime) {
             if ($method->getDeliveryTime() > 1) {
-                return $this->_getHelper()->__('%s (%d working days)', $title, $method->getDeliveryTime());
+                return $this->_getHelper()->__('%s (%d working days)', $title, $method->getDeliveryTime()).' '.$method->getDeliveryMessage();
             } else {
-                return $this->_getHelper()->__('%s (%d working day)', $title, $method->getDeliveryTime());
+                return $this->_getHelper()->__('%s (%d working day)', $title, $method->getDeliveryTime()).' '.$method->getDeliveryMessage();
             }
         }
 
