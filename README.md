@@ -8,6 +8,7 @@ O módulo tem como função principal calcular os preços e prazos utilizando o 
 * Escolha do método de frete grátis inteligente ( segue regras de promoção ).
 * Possibilidade de adicionar dias ao prazo de entrega.
 * Possibilidade de adicionar taxa de manuseio fixa ou percentual.
+* Compatível com ceps em Área de Risco.
 
 ##Instalação
 Para efetuar a instalação do módulo siga os passos:
