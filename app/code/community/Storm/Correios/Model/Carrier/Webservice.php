@@ -13,6 +13,7 @@ class Storm_Correios_Model_Carrier_Webservice
     protected $_client;
     protected $_params;
     protected $_request;
+    protected $_allowedErrors = array('009','010','011');
 
     /**
      * Performs connection with webservice of Correios
@@ -189,39 +190,39 @@ class Storm_Correios_Model_Carrier_Webservice
     {
         $result = new Varien_Object();
         $result->setCode($data->Codigo);
-        
-        /**
-         * Conforme o manual os erros de código 009/010/011, são avisos, não pode recusar o calculo devido a este erro,
-         * pois são lugares com Área de Risco para entrega, mas o pacote será enviado e cobrado normalmente, somente o 
-         * prazo que vai comprometer.
-         * 
-         * Página 15 - Item 3. Códigos e mensagens de erro 
-         * Manual: http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos
-         * 
-         * A variável $data->Erro, ela retorna como String, por isso as condições está como string, pois caso tranforme como inteiro
-         * o retorno 010, se torna 10.
-         */
-        
-        if ($data->Erro != 0 && $data->Erro != '009' && $data->Erro != '010' && $data->Erro != '011') {
-            $result->setError($data->Erro)
-                ->setErrorMessage($data->MsgErro);
 
-            return $result;
+        $canShowMessage = $this->_isAllowedError($data->Erro);
+        if($data->Erro) {
+            $result->setError($data->Erro)
+                ->setErrorMessage($data->MsgErro)
+                ->setShowMessage($canShowMessage);
         }
-        
-        // Adicionado uma mensagem extra no retorno para informa o usuário sobre a area de risco, caso exista.
-        $erro_local_restrito = '';
-        if( $data->Erro == '009' || $data->Erro == '010' || $data->Erro == '011' ){
-            $erro_local_restrito = $data->MsgErro;
-        }
-        
         
         $result->setPrice($this->_getHelper()->convertToFloat($data->Valor))
             ->setDeliveryTime($data->PrazoEntrega + intval($this->_getHelper()->getConfigData('add_delivery_time')))
-            ->setDeliveryMessage($erro_local_restrito)
             ->setHomeDelivery($data->EntregaDomiciliar == 'S' ? true : false)
             ->setSaturdayDelivery($data->EntregaSabado == 'S' ? true : false);
 
         return $result;
+    }
+
+    /**
+     * Conforme o manual os erros de código 009/010/011, são avisos, não pode recusar o calculo devido a este erro,
+     * pois são lugares com Área de Risco para entrega, mas o pacote será enviado e cobrado normalmente, somente o
+     * prazo que vai comprometer.
+     *
+     * Página 15 - Item 3. Códigos e mensagens de erro
+     * Manual: http://www.correios.com.br/para-voce/correios-de-a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos
+     *
+     * @param string $code
+     * @return bool
+     */
+    protected function _isAllowedError($code)
+    {
+        if(empty($code) || !in_array($code, $this->_allowedErrors)) {
+            return false;
+        }
+
+        return true;
     }
 }
