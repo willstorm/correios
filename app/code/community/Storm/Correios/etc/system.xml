@@ -161,7 +161,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </handling_fee>
-                       	<peso_caixa>
+                        <peso_caixa>
                             <label>Peso da Caixa (em KG)</label>
                             <frontend_type>text</frontend_type>
                             <source_model>shipping/source_handlingType</source_model>
