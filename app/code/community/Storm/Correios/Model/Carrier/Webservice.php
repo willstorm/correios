@@ -9,7 +9,7 @@
  */
 class Storm_Correios_Model_Carrier_Webservice
 {
-    const WSDL_URL = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl';
+    const WSDL_URL = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?op=CalcPrecoPrazo&wsdl';
     protected $_client;
     protected $_params;
     protected $_request;
