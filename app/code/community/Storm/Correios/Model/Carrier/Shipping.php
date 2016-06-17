@@ -126,19 +126,20 @@ class Storm_Correios_Model_Carrier_Shipping extends Mage_Shipping_Model_Carrier_
      */
     public function isValid(Mage_Shipping_Model_Rate_Request $request)
     {
+        $helper = $this->_getHelper();
+
         if (!extension_loaded('soap')) {
-            throw new Mage_Shipping_Exception($this->_getHelper()->__('You must to install PHP Soap extension to use shipping method Correios.'));
-            return false;
+            throw new Mage_Shipping_Exception($helper->__('You must to install PHP Soap extension to use shipping method Correios.'));
         }
 
-        if (!$this->_getHelper()->isValidPostcode($request->getDestPostcode())) {
-            throw new Mage_Shipping_Exception($this->_getHelper()->__('Please, enter the postcode correctly.'));
-            return false;
+        $postCode = $request->getPostcode();
+
+        if ($postCode && !$helper->isValidPostcode($postCode)) {
+            throw new Mage_Shipping_Exception($helper->__('Please, enter the postcode correctly.'));
         }
 
         if ($request->getPackageWeight() > self::PACKAGE_WEIGHT_MAX) {
-            throw new Mage_Shipping_Exception($this->_getHelper()->__('The package weight exceeds the weight limit.'));
-            return false;
+            throw new Mage_Shipping_Exception($helper->__('The package weight exceeds the weight limit.'));
         }
 
         return true;
