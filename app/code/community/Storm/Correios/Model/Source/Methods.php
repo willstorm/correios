@@ -20,11 +20,11 @@ class Storm_Correios_Model_Source_Methods
 	    array(
 		'label' => Mage::helper('correios')->__('Without contract'),
 		'value' => array(
-		    array('value' => '40010', 'label' => Mage::helper('correios')->__('Sedex')),
+		    array('value' => '04014', 'label' => Mage::helper('correios')->__('Sedex')),
 		    array('value' => '40045', 'label' => Mage::helper('correios')->__('Sedex a cobrar')),
 		    array('value' => '40215', 'label' => Mage::helper('correios')->__('Sedex 10')),
 		    array('value' => '40290', 'label' => Mage::helper('correios')->__('Sedex hoje')),
-		    array('value' => '41106', 'label' => Mage::helper('correios')->__('Pac'))
+		    array('value' => '04510', 'label' => Mage::helper('correios')->__('Pac'))
 		)
 	    ),
 	    array(
