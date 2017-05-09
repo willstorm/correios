@@ -74,27 +74,27 @@ class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
         try {
             $data = array();
 
-			$object = $this->_requestXML($this->getTrackingValue());
-			
-			foreach($object->evento as $event) {						
-				$eventdate = implode("-",array_reverse(explode("/", $event->data)));
+            if($object = $this->_requestEventTracking($this->getTrackingValue())) {
+                foreach ($object->evento as $event) {
+                    $eventDate = implode('-', array_reverse(explode('/', $event->data)));
 
-				$data[] = array(
-					'activity' => $this->_checkEvent($event),
-					'deliverydate' => $eventdate,
-					'deliverytime' => sprintf('%s:00', $event->hora),
-					'deliverylocation' => $event->cidade .' / ' . $event->uf
-				);
-			}
+                    $data[] = array(
+                        'activity' => $this->_parseEventMessage($event),
+                        'deliverydate' => $eventDate,
+                        'deliverytime' => sprintf('%s:00', $event->hora),
+                        'deliverylocation' => $event->cidade . ' / ' . $event->uf
+                    );
+                }
 
-			return $data;
-			
+                return $data;
+            }
         } catch(Exception $error) {
-			Mage::log("Error: " . $error->getMessage());
+			Mage::log(sprintf('Error: %s.', $error->getMessage()));
         }
         
         return false;
     }
+
     /**
      * Returns the instance of the helper module's main
      * 
@@ -104,47 +104,58 @@ class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
     {
         return Mage::helper('correios');
     }
-	
-	
-	
-	public function _requestXML($tracking)
+
+    /**
+     * Request event tracking from webservice resources
+     *
+     * @param $tracking
+     * @return bool|void
+     */
+	public function _requestEventTracking($tracking)
     {
-		
         $params = array(
-            'usuario'   => 'ECT',
-            'senha'     => 'SRO',
-            'tipo'      => 'L',
+            'usuario' => 'ECT',
+            'senha' => 'SRO',
+            'tipo' => 'L',
             'resultado' => 'T',
-            'lingua'    => '101',
-            'objetos'   => $tracking
+            'lingua' => '101',
+            'objetos' => $tracking
         );
         
         try {
             $client = new SoapClient(self::TRACKING_URL);
-            $response = $client->buscaEventos($params);
-            if (empty($response)) {
-                throw new Exception("Empty response");
+
+            if(!$response = $client->buscaEventos($params)) {
+                throw new Exception(sprintf('No response on requesting tracking %s.', $tracking));
             }
-						
-			return $response->return->objeto;
-			
+
+            return $response->return->objeto;
         } catch (Exception $e) {
-            Mage::log("Soap Error: {$e->getMessage()}");
-            return false;
+            Mage::log('Soap Error: %s', $e->getMessage());
         }
-		return;
+
+		return false;
     }
-	
-    public function _checkEvent($event)
+
+    /**
+     * Change event message format
+     *
+     * @param $event
+     * @return string
+     */
+    public function _parseEventMessage($event)
     {
-        $msg = $event->descricao;
+        $message = $event->descricao;
+
         if (isset($event->destino) && isset($event->destino->local)) {
-            $msg .= ' para ' . $event->destino->local . ' - ' . $event->destino->cidade . ' / ' . $event->destino->uf;
+            $message = sprintf('%s para %s - %s / %s', $message, $event->destino->local,$event->destino->cidade, $event->destino->uf);
         }
+
         if (isset($event->detalhe) && !empty($event->detalhe)) {
-            $msg .= ' ' . $event->detalhe;
+            $message = sprintf('%s %s', $message, $event->detalhe);
         }
-        return $msg;
+
+        return $message;
     }
 
 }
