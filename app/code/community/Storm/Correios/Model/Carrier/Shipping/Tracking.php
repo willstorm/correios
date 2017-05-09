@@ -5,7 +5,7 @@
  */
 class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
 {
-    const TRACKING_URL = 'http://websro.correios.com.br/sro_bin/txect01$.QueryList';    
+    const TRACKING_URL = 'http://webservice.correios.com.br/service/rastro/Rastro.wsdl';
     protected $_result;
     
     public function __construct()
@@ -73,38 +73,28 @@ class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
     {
         try {
             $data = array();
-            $client = new Zend_Http_Client(self::TRACKING_URL);
-            $client->setParameterGet('P_LINGUA', '001')
-                   ->setParameterGet('P_TIPO', '001')
-                   ->setParameterGet('P_COD_UNI', $this->getTrackingValue());
 
-            $response = $client->request(Zend_Http_Client::GET);
-            if(preg_match_all('/<tr.*?>(.*?)<\/tr>/i', $response, $rows)) {
-                foreach($rows[1] as $row) {
-                    preg_match_all('/<td.*?>(.*?)<\/td>/i', $row, $cols);
+            if($object = $this->_requestEventTracking($this->getTrackingValue())) {
+                foreach ($object->evento as $event) {
+                    $eventDate = implode('-', array_reverse(explode('/', $event->data)));
 
-                    if(count($cols[1]) > 1) {
-                        list($deliverydate, $deliverytime) = explode(' ', $cols[1][0]);           
-                        $deliverydate = new Zend_Date($deliverydate, 'dd/MM/YYYY', new Zend_Locale('pt_BR'));
-
-                        $data[] = array(
-                            'activity' => strip_tags($cols[1][2]),
-                            'deliverydate' => $deliverydate->toString('YYYY-MM-dd'),
-                            'deliverytime' => sprintf('%s:00', $deliverytime),
-                            'deliverylocation' => $cols[1][1]
-                        );
-                    }
+                    $data[] = array(
+                        'activity' => $this->_parseEventMessage($event),
+                        'deliverydate' => $eventDate,
+                        'deliverytime' => sprintf('%s:00', $event->hora),
+                        'deliverylocation' => $event->cidade . ' / ' . $event->uf
+                    );
                 }
 
                 return $data;
             }
         } catch(Exception $error) {
-            //@TODO Gravar log de erro
+			Mage::log(sprintf('Error: %s.', $error->getMessage()));
         }
         
         return false;
     }
-    
+
     /**
      * Returns the instance of the helper module's main
      * 
@@ -114,4 +104,58 @@ class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
     {
         return Mage::helper('correios');
     }
+
+    /**
+     * Request event tracking from webservice resources
+     *
+     * @param $tracking
+     * @return bool|void
+     */
+	public function _requestEventTracking($tracking)
+    {
+        $params = array(
+            'usuario' => 'ECT',
+            'senha' => 'SRO',
+            'tipo' => 'L',
+            'resultado' => 'T',
+            'lingua' => '101',
+            'objetos' => $tracking
+        );
+        
+        try {
+            $client = new SoapClient(self::TRACKING_URL);
+
+            if(!$response = $client->buscaEventos($params)) {
+                throw new Exception(sprintf('No response on requesting tracking %s.', $tracking));
+            }
+
+            return $response->return->objeto;
+        } catch (Exception $e) {
+            Mage::log('Soap Error: %s', $e->getMessage());
+        }
+
+		return false;
+    }
+
+    /**
+     * Change event message format
+     *
+     * @param $event
+     * @return string
+     */
+    public function _parseEventMessage($event)
+    {
+        $message = $event->descricao;
+
+        if (isset($event->destino) && isset($event->destino->local)) {
+            $message = sprintf('%s para %s - %s / %s', $message, $event->destino->local,$event->destino->cidade, $event->destino->uf);
+        }
+
+        if (isset($event->detalhe) && !empty($event->detalhe)) {
+            $message = sprintf('%s %s', $message, $event->detalhe);
+        }
+
+        return $message;
+    }
+
 }
