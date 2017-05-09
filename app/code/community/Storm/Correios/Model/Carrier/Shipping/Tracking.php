@@ -75,7 +75,12 @@ class Storm_Correios_Model_Carrier_Shipping_Tracking extends Varien_Object
             $data = array();
 
             if($object = $this->_requestEventTracking($this->getTrackingValue())) {
-                foreach ($object->evento as $event) {
+		$events = $object->evento;				
+		if (!is_array($events)) {
+			$events = array();
+			$events[] = $object->evento;
+		}
+                foreach ($events as $event) {
                     $eventDate = implode('-', array_reverse(explode('/', $event->data)));
 
                     $data[] = array(
