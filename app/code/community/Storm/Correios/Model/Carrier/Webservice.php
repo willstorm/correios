@@ -102,8 +102,16 @@ class Storm_Correios_Model_Carrier_Webservice
         $dimension = Mage::getModel('correios/carrier_package_dimension');
         $dimension->setRequest($request);
 
+		$pesoProdutos = $request->getPackageWeight();
+
+        if ( $pesoCaixa = $this->_getHelper()->getConfigData('peso_caixa') ) {
+			$pesoTotal = $pesoCaixa + $pesoProdutos;
+		} else {
+			$pesoTotal = $pesoProdutos;
+		}
+
         $this->setParam('sCepDestino', $request->getDestPostcode())
-            ->setParam('nVlPeso', $request->getPackageWeight())
+            ->setParam('nVlPeso', $pesoTotal)
             ->setParam('nCdFormato', 1)
             ->setParam('nVlComprimento', $dimension->getLength())
             ->setParam('nVlAltura', $dimension->getHeight())
