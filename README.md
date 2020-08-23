@@ -1,7 +1,7 @@
-#Magento - Cálculo de Frete dos Correios
+# Magento - Cálculo de Frete dos Correios
 O módulo tem como função principal calcular os preços e prazos utilizando o webservice disponibilizado pelos Correios.
 
-##Funcionalidades
+## Funcionalidades
 * Inclui todos os métodos de entrega disponíveis.
 * Configuração para comerciantes que tem contrato com os Correios.
 * Rastreador de objeto em tempo real.
@@ -10,7 +10,7 @@ O módulo tem como função principal calcular os preços e prazos utilizando o 
 * Possibilidade de adicionar taxa de manuseio fixa ou percentual.
 * Compatível com ceps em Área de Risco. ( contribuição de [brunoosilva](https://github.com/brunoosilva) )
 
-##Instalação
+## Instalação
 Para efetuar a instalação do módulo siga os passos:
 
 1. Acesse o link do módulo no [*Magento Connect*](http://www.magentocommerce.com/magento-connect/calculo-de-frete-dos-correios.html) e clique em *Install Now*.
@@ -22,11 +22,11 @@ Para efetuar a instalação do módulo siga os passos:
 7. Cole o endereço de instalação do módulo no campo *Paste extension key to install* e clique em *Install*.
 8. Em *Extension dependencies* clique em *Proceed*.
 
-##Configuração
-###Definições de envio
+## Configuração
+### Definições de envio
 Antes de configurar o módulo do Correios em si, é necessário configurar as opções de envio da entrega. Vá em *System > Configuration > Sales > Shipping Settings*. Para que o módulo funcione corretamente é necessário apenas preencher os campos *Country e ZIP/Postal code em Origin*.
 
-###Definições de método de entrega
+### Definições de método de entrega
 Agora iremos configurar o módulo dos *Correios*. Entre *System > Configuration > Sales > Shipping Methods* e escolha a aba *Correios*. Veremos a seguir todas as opções do módulo.
 
 + **Habilitado** : Habilita ou desabilita o módulo.
@@ -43,7 +43,7 @@ Agora iremos configurar o módulo dos *Correios*. Entre *System > Configuration 
 + **Taxa de Manuseio** : A taxa de manuseio é adicionada ao valor final do preço do frete. Se deseja dar desconto use valores negativos. 
 + **Ordem** : A ordem na qual o método de entrega será mostrado ao cliente. Esta opção só é aplicavél se você tem mais de um método de entrega habilitado em sua loja virtual.
 
-###Definições de produto
+### Definições de produto
 Para que o módulo funcione corretamente o peso e dimensões do produto devem ser configurados com os valores reais. O módulo considera que **todos os produtos estão com peso em KG e as dimensões dos produtos estejam em CM**.
 
 Para configurar o produto siga os passos:
@@ -52,8 +52,8 @@ Para configurar o produto siga os passos:
 2. Vá na aba *General* e digite o peso do produto em KG no campo *Weight* ( peso ).
 3. Vá a aba *Dimensions* ( dimensões ) e digite as dimensões do produto nos campos Altura, Largura e Comprimento. 
 
-##Bugs
+## Bugs
 Caso encontre algum problema com o módulo não exite em [reportá-lo](https://github.com/willstorm/correios/issues).
 
-##Dúvidas e Sugestões
+## Dúvidas e Sugestões
 Tem dúvidas, sugestões ou quer apenas dar um oi, [entre em contato com o desenvolvedor](mailto:williancordeirodesouza@gmail.com).
